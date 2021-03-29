@@ -11,7 +11,6 @@ $(document).ready(function(){
         alert('Sign new href executed.');
     });
     $('a[href = "#pag_last"]').click(function(){
-
         getPage(1, 2);
     });
     $('#pag_input').on({
@@ -32,7 +31,7 @@ function getPage(page, count) {
             dataType: "json",
             type : 'Get',
             data: { 'count': count },
-            url: 'http://localhost:8081/v1/user/storage/page/'+page,
+            url: 'http://localhost:8082/v1/user/storage/page/'+page,
             success: function(data) {
                 $('#table-body').empty();
                 $('#table-body').append(renderTable(data));
@@ -53,7 +52,7 @@ function itemCount() {
      $.ajax({
             dataType: "json",
             type : 'Get',
-            url: 'http://localhost:8081/v1/user/storage/item/count',
+            url: 'http://localhost:8082/v1/user/storage/item/count',
             success: function(data) {
                 console.log(data);
                 },
