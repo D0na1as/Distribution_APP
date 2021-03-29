@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/custom.min.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/custom.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     
     <script src="https://kit.fontawesome.com/aaab8858c1.js" crossorigin="anonymous"></script>
 
@@ -65,94 +65,90 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-header pl-3 mt-5 mb-5">
-                    <h1 id="tables">Storage Items</h1>
+                    <h1>Storage Items</h1>
                 </div>
-                <div class="d-flex justify-content-between">
-                    <div class="form-group form-inline">
-                        <select class="form-control form-control-sm mr-2" id="exampleSelect1">
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                        </select>
+                <div class="table">
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group form-inline">
+                            <select class="form-control form-control-sm border shadow-none mr-2" id="count_select">
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            </select>
+                        </div>
+                        <ul id="pagination" class="pagination pagination-sm">
+                            <li class="page-item disabled">
+                                <a class="page-link shadow-none" href="#pag_left">&laquo;</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link shadow-none" href="#pag_first">1</a>
+                            </li>
+                            <li class="page-item">
+                                <input id="pag_input" class="form-control form-control-sm rounded-0 shadow-none border pag_input no_spinner" type="number" placeholder="...">
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link shadow-none" href="#pag_last">5</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link shadow-none" href="#pag_right">&raquo;</a>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="pagination pagination-sm">
-                        <li class="page-item disabled">
-                        <a class="page-link" href="#">&laquo;</a>
-                        </li>
-                        <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                        <a class="page-link" href="#" data-toggle="dropdown">...</a>
-                            <div class="dropdown-menu" value="asd">
-                                <a class="dropdown-item" href="#">Link 1</a>
-                                <a class="dropdown-item" href="#">Link 2</a>
-                                <a class="dropdown-item" href="#">Link 3</a>
-                            </div>
-                        </li>
-                        <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                        </li>
-                        <li class="page-item">
-                        <a class="page-link" href="#">&raquo;</a>
-                        </li>
-                    </ul>
+                    <div class="form-group">
+                    <table class="table table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Serial</th>
+                            <th scope="col">Update</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Alloy Wheels</td>
+                            <td>JDSF443JDDS</td>
+                            <td class="align-middle p-0">
+                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                    <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-pencil-alt scale_120"></i></span></button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Alloy Wheels</td>
+                            <td>JDSF443JDDS</td>
+                            <td class="align-middle p-0">
+                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                    <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-pencil-alt scale_120"></i></span></button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Alloy Wheels</td>
+                            <td>JDSF443JDDS</td>
+                            <td class="align-middle p-0">
+                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                    <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-pencil-alt scale_120"></i></span></button>
+                                </form>
+                            </td>
+                        </tr>
+                            <th scope="row">3</th>
+                            <td>Alloy Wheels</td>
+                            <td>JDSF443JDDS</td>
+                            <td class="align-middle p-0">
+                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                    <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-pencil-alt scale_120"></i></span></button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-            <div class="form-group">
-                <table class="table table-hover text-center">
-                    <thead>
-                    <tr>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Serial</th>
-                        <th scope="col">Update</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Alloy Wheels</td>
-                        <td>JDSF443JDDS</td>
-                        <td class="align-middle p-0">                        
-                            <form class="form-inline justify-content-center my-2 my-lg-0">
-                                <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-pencil-alt scale_120"></i></span></button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Alloy Wheels</td>
-                        <td>JDSF443JDDS</td>
-                        <td class="align-middle p-0">                        
-                            <form class="form-inline justify-content-center my-2 my-lg-0">
-                                <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-pencil-alt scale_120"></i></span></button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Alloy Wheels</td>
-                        <td>JDSF443JDDS</td>
-                        <td class="align-middle p-0">                        
-                            <form class="form-inline justify-content-center my-2 my-lg-0">
-                                <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-pencil-alt scale_120"></i></span></button>
-                            </form>
-                        </td>
-                    </tr>
-                        <th scope="row">3</th>
-                        <td>Alloy Wheels</td>
-                        <td>JDSF443JDDS</td>
-                        <td class="align-middle p-0">                        
-                            <form class="form-inline justify-content-center my-2 my-lg-0">
-                                <button class="btn btn-info btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-pencil-alt scale_120"></i></span></button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                </div>
             </div>
-        </div>
     </div>
     <!-- /Table-->
 
@@ -163,7 +159,7 @@
         <div class="d-flex justify-content-between">
             <div class="form-inline page-header mt-4 ml-4"> 
                 <i class="fas fa-plus-circle fa-2x ml-1 mr-2 pb-2"></i>
-                <h3 id="tables">Add Item</h3>
+                <h3>Add Item</h3>
             </div>
             <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -329,7 +325,7 @@
                                     <td>JDSF443JDDS</td>
                                     <td class="align-middle p-0">                        
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <button class="btn btn-danger btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-times scale_120 pl-1 pr-1"></i></span></button>
+                                            <button class="btn btn-danger btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-times scale_120 pl-1 pr-1"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -338,7 +334,7 @@
                                     <td>JDSF443JDDS</td>
                                     <td class="align-middle p-0">                        
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <button class="btn btn-warning btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-truck scale_120"></i></span></button>
+                                            <button class="btn btn-warning btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-truck scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -347,7 +343,7 @@
                                     <td>JDSF443JDDS</td>
                                     <td class="align-middle p-0">                        
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <button class="btn btn-success btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-check scale_120"></i></span></button>
+                                            <button class="btn btn-success btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-check scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -356,7 +352,7 @@
                                     <td>JDSF443JDDS</td>
                                     <td class="align-middle p-0">                        
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <button class="btn btn-success btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" class="mr-1"><i class="fas fa-check scale_120"></i></span></button>
+                                            <button class="btn btn-success btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-check scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -509,8 +505,9 @@
     <!--/Account  Modal-->
 
 
-    <script src="./script/jquery.min.js"></script>
-    <script src="./script/bootstrap.bundle.min.js"></script>
-    <script src="./script/custom.js"></script>
+    <script src="/script/jquery.min.js"></script>
+    <script src="/script/bootstrap.bundle.min.js"></script>
+    <script src="/script/custom.js"></script>
+    <script src="/script/client_sc.js"></script>
   </body>
 </html>

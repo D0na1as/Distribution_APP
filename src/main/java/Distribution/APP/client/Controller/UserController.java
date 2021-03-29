@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/")
     public String check(Model model) {
-        return "user";
+        return "user/user";
     }
 
 }
