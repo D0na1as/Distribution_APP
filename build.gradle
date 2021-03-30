@@ -15,4 +15,5 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile group: 'org.json', name: 'json', version: '20201115'
 }
