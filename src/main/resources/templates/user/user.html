@@ -92,6 +92,7 @@
                     <table class="table table-hover text-center">
                         <thead>
                         <tr>
+                            <th scope="col">Id</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Title</th>
                             <th scope="col">Serial</th>
@@ -99,13 +100,14 @@
                         </tr>
                         </thead>
                         <tbody id="table-body">
-                            <tr th:each="item:${items}" class="center">
+                            <tr id="tableRow" th:each="item:${items}" class="center">
+                                <td th:text="${item.id}"></td>
                                 <td th:text="${item.quantity}"></td>
                                 <td th:text="${item.title}"></td>
                                 <td th:text="${item.serial}"></td>
                                 <td class="align-middle p-0">
                                     <form class="form-inline justify-content-center my-2 my-lg-0">
-                                        <a class="btn btn-info btn-sm ml-1" href="#editItemModal" data-toggle="modal"><span class="pl-4 pr-4" ><i class="fas fa-pencil-alt scale_120"></i></span></a>
+                                        <a  class="btn btn-info btn-sm ml-1" href="#editItemModal" data-toggle="modal"><span class="pl-4 pr-4" ><i class="fas fa-pencil-alt scale_120"></i></span></a>
                                     </form>
                                 </td>
                             </tr>
@@ -124,7 +126,7 @@
         <div class="d-flex justify-content-between">
             <div class="form-inline page-header mt-4 ml-4"> 
                 <i class="fas fa-plus-circle fa-2x ml-1 mr-2 pb-2"></i>
-                <h3>Add Item</h3>
+                <h3 class="ml-2">Add Item</h3>
             </div>
             <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -133,22 +135,31 @@
         <div class="modal-body">
             <div class="row justify-content-center">
                 <div class="col-10">
-                    <div class="form-group  form-inline justify-content-between">
+                    <div class="form-group form-inline justify-content-between">
                         <tr>
                             <td class="align-middle p-0 mt-2">
-                                <form class="form-inline justify-content-center my-2 my-lg-0">
-                                    <input class="form-control form-control addItem_input mr-sm-2" type="text" placeholder="Title" required>
-                                </form>
+                                <div class="d-block" >
+                                    <label class="h5 mb-2">Title</label>
+                                    <form class="form-inline justify-content-center my-2 my-lg-0">
+                                        <input id="addTitle" class="form-control form-control addItem_input mr-sm-2" type="text" placeholder="Title" required>
+                                    </form>
+                                </div>
                             </td>
                             <td class="align-middle p-0">
-                                <form class="form-inline justify-content-center my-2 my-lg-0">
-                                    <input class="form-control form-control addItem_input mr-sm-2" type="text" placeholder="Serial" required>
-                                </form>
+                                <div class="d-block" >
+                                    <label class="h5 mb-2">Serial</label>
+                                    <form class="form-inline justify-content-center my-2 my-lg-0">
+                                        <input id="addSerial" class="form-control form-control addItem_input mr-sm-2" type="text" placeholder="Serial" required>
+                                    </form>
+                                </div>
                             </td>
                             <td class="align-middle p-0">
-                                <form class="form-inline justify-content-center my-2 my-lg-0">
-                                    <input class="form-control form-control addItem_input_nbr mr-sm-2" type="number" placeholder="Qty" required>
-                                </form>
+                                <div class="d-block">
+                                    <label class="h5 mb-2">Quantity</label>
+                                    <form class="form-inline justify-content-center my-2 my-lg-0">
+                                        <input id="addQuantity" class="form-control form-control addItem_input_nbr mr-sm-2" type="number" placeholder="Qty" required>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     </div>
@@ -156,21 +167,86 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Add</button>
+            <button type="button" id="addItemConfirm" class="btn btn-primary">Add</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
         </div>
     </div>
     </div>
     <!-- /Add Item Modal-->
+
     <!-- Edit Item Modal-->
     <div class="modal fade" id="editItemModal" >
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="d-flex justify-content-between">
                     <div class="form-inline page-header mt-4 ml-4">
-                        <i class="fas fa-plus-circle fa-2x ml-1 mr-2 pb-2"></i>
-                        <h3>Update Item</h3>
+                        <i class="fas fa-pencil-alt fa-2x ml-1 mr-2 pb-2"></i>
+                        <h3 class="ml-2">Update Item</h3>
+                    </div>
+                    <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group form-inline justify-content-between">
+                                    <tr>
+                                        <td class="align-middle p-0 mt-2">
+                                            <div class="d-block font-weight-bold" >
+                                                <label class="mb-1">Id</label>
+                                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                    <input id="editId" class="form-control form-control addItem_input_nbr mr-sm-1" type="text" placeholder="id" disabled>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="d-block align-middle p-0 mt-2">
+                                            <div class="d-block font-weight-bold" >
+                                                <label class="mb-1">Title</label>
+                                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                    <input id="editTitle" class="form-control form-control addItem_input mr-sm-1" type="text" placeholder="Title" required>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="d-block align-middle p-0">
+                                            <div class="d-block font-weight-bold" >
+                                                <label class="mb-1">Serial</label>
+                                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                    <input id="editSerial" class="form-control form-control addItem_input mr-sm-1" type="text" placeholder="Serial" required>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="d-block align-middle p-0">
+                                            <div class="d-block font-weight-bold">
+                                                <label class="mb-1">Quantity</label>
+                                                <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                    <input id="editQuantity" class="form-control form-control addItem_input_nbr mr-sm-1" type="number" placeholder="Qty" required>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="editConfirm" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Edit Item Modal-->
+
+    <!-- Order Item Modal-->
+    <div class="modal fade" id="orderItemModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="d-flex justify-content-between">
+                    <div class="form-inline page-header mt-4 ml-4">
+                        <i class="fas fa-pencil-alt fa-2x ml-1 mr-2 pb-2"></i>
+                        <h3 class="ml-2">Update Item</h3>
                     </div>
                     <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -179,40 +255,74 @@
                 <div class="modal-body">
                     <div class="row justify-content-center">
                         <div class="col-10">
-                            <div class="form-group  form-inline justify-content-between">
-                                <tr>
-                                    <td class="align-middle p-0 mt-2">
-                                        <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <input class="form-control form-control addItem_input mr-sm-2" type="text" placeholder="Title" required>
-                                        </form>
-                                    </td>
-                                    <td class="align-middle p-0">
-                                        <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <input class="form-control form-control addItem_input mr-sm-2" type="text" placeholder="Serial" required>
-                                        </form>
-                                    </td>
-                                    <td class="align-middle p-0">
-                                        <form class="form-inline justify-content-center my-2 my-lg-0">
-                                            <input class="form-control form-control addItem_input_nbr mr-sm-2" type="number" placeholder="Qty" required>
-                                        </form>
-                                    </td>
-                                </tr>
+                            <div class="form-group">
+                                <table class="table table-hover text-center">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Title <a href="#orderItemModal" data-toggle="modal">Go</a></th>
+                                        <th scope="col">Serial</th>
+                                        <th scope="col">Request</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Alloy Wheels</td>
+                                        <td>JDSF443JDDS</td>
+                                        <td class="align-middle p-0">
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input class="form-control form-control-sm tbl_input_width  mr-sm-2" type="number" value=0 required>
+                                                <button class="btn  btn-sm ml-1" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alloy Wheels</td>
+                                        <td>JDSF443JDDS</td>
+                                        <td class="align-middle p-0">
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input class="form-control form-control-sm tbl_input_width  mr-sm-2" type="number" value=0 required>
+                                                <button class="btn  btn-sm ml-1" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alloy Wheels</td>
+                                        <td>JDSF443JDDS</td>
+                                        <td class="align-middle p-0">
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input class="form-control form-control-sm tbl_input_width  mr-sm-2" type="number" value=0 required>
+                                                <button class="btn  btn-sm ml-1" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alloy Wheels</td>
+                                        <td>JDSF443JDDS</td>
+                                        <td class="align-middle p-0">
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input class="form-control form-control-sm tbl_input_width  mr-sm-2" type="number" value=0 required>
+                                                <button class="btn  btn-sm ml-1" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /Edit Item Modal-->
+    <!-- /Order Item Modal-->
 
     <!-- Order List Modal-->
-    <div class="modal fade" id="orderListModal" >
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="orderListModal">
+        <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="d-flex justify-content-between">
                 <div class="form-inline page-header mt-4 ml-4">
@@ -230,74 +340,71 @@
                             <table class="table table-hover text-center">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Serial</th>
-                                    <th scope="col">Request</th>
+                                    <th scope="col">Order <a id="mygtukas" href="#orderItemModal" data-toggle="modal">Go</a></th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Select</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="ordersTable">
                                 <tr>
                                     <td>Alloy Wheels</td>
                                     <td>JDSF443JDDS</td>
-                                    <td class="align-middle p-0">                        
+                                    <td class="align-middle p-0">
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
                                             <div class="custom-control  custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input " id="customCheck4">
                                                 <label class="custom-control-label" for="customCheck4"></label>
                                             </div>
-                                            <button class="btn  btn-sm ml-1 pt-2" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Alloy Wheels</td>
                                     <td>JDSF443JDDS</td>
-                                    <td class="align-middle p-0">                        
+                                    <td class="align-middle p-0">
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
                                             <div class="custom-control  custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input " id="customCheck1">
-                                                <label class="custom-control-label" for="customCheck1"></label>
+                                                <input type="checkbox" class="custom-control-input " id="customCheck34">
+                                                <label class="custom-control-label" for="customCheck34"></label>
                                             </div>
-                                            <button class="btn  btn-sm ml-1 pt-2" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Alloy Wheels</td>
                                     <td>JDSF443JDDS</td>
-                                    <td class="align-middle p-0">                        
+                                    <td class="align-middle p-0">
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
                                             <div class="custom-control  custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input " id="customCheck2">
                                                 <label class="custom-control-label" for="customCheck2"></label>
                                             </div>
-                                            <button class="btn  btn-sm ml-1 pt-2" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Alloy Wheels</td>
                                     <td>JDSF443JDDS</td>
-                                    <td class="align-middle p-0">                        
+                                    <td class="align-middle p-0">
                                         <form class="form-inline justify-content-center my-2 my-lg-0">
                                             <div class="custom-control  custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input " id="customCheck3">
-                                                <label class="custom-control-label" for="customCheck3"></label>
+                                                <input type="checkbox" class="custom-control-input " id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1"></label>
                                             </div>
-                                            <button class="btn  btn-sm ml-1 pt-2" type="submit"><span type="submit" class="mr-1"><i class="fas fa-times scale_120"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                 </div>
-                
-            </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Confirm</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success">Confirm</button>
+                <button type="button" class="btn btn-danger">Decline</button>
             </div>
         </div>
         </div>
@@ -388,7 +495,7 @@
         <div class="d-flex justify-content-between">
             <div class="form-inline page-header mt-4 ml-4">
                 <h5 type="submit" class="ml-3 mr-3"><i class="fas fa-user-circle fa-2x"></i></h5>
-                <h2 id="tables">Account</h2>
+                <h2>Account</h2>
             </div>
             <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -513,6 +620,27 @@
     </div>
     </div>
     <!--/Account  Modal-->
+
+    <!--Message Modal-->
+    <div class="modal" tabindex="-1" role="dialog" id="messageModal" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="/script/jquery.min.js"></script>
     <script src="/script/bootstrap.bundle.min.js"></script>
