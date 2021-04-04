@@ -34,4 +34,24 @@ public class ClientController {
         return "client/client";
     }
 
+    @GetMapping( value = "/page" )
+    public String getPage(@RequestParam("page") int page,
+                          @RequestParam("count") int count,
+                          Model model)  {
+        int lastPage = userSrv.getLastPage(count);
+        List<Item> items;
+        if (page>lastPage) {
+            items = userSrv.getPage(lastPage, count);
+            model.addAttribute("pageSelected", lastPage);
+        } else {
+            items = userSrv.getPage(page, count);
+            model.addAttribute("pageSelected", page);
+        }
+        model.addAttribute("items", items);
+        model.addAttribute("countSelected", count);
+        model.addAttribute("countList", countList);
+        model.addAttribute("lastPage", lastPage);
+
+        return "client/client";
+    }
 }
