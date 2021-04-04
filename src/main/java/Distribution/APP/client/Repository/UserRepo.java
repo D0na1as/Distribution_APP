@@ -31,9 +31,20 @@ public class UserRepo {
         return items;
     }
 
+    public List<Item> getPage(int page, int count, String search) {
+        String buildURL = BASE_URL + "/page/"+ search +"/"+ page +"?count="+ count;
+        return getAllItemsReq(buildURL);
+    }
+
     //Get Item Count
     public long getItemCount() {
         String buildURL = BASE_URL + "/item/count";
+        return getInt(buildURL);
+    }
+
+    //Get Item Count
+    public long getItemCount(String search) {
+        String buildURL = BASE_URL + "/item/count/"+search;
         return getInt(buildURL);
     }
 
@@ -54,5 +65,4 @@ public class UserRepo {
             return 0;
         }
     }
-
 }

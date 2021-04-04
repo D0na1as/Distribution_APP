@@ -23,7 +23,6 @@ $(document).ready(function(){
         $('#pag_down').click('change', function() {
             $('#pag_page option:selected').prev().attr('selected', 'selected');
         });
-
         $('#pag_up').click('change', function() {
             $('#pag_page option:selected').next().attr('selected', 'selected');
         });
@@ -33,6 +32,9 @@ $(document).ready(function(){
                     $("#addSerial").val(),
                     $("#addQuantity").val())
         });
+//         $('#orderListModal').click('change', function() {
+//            getOrders(111, "pending");
+//        });
 
         $('#orderListModal').on('hidden.bs.modal', function() {
             $("#ordersTable").find("tr").remove();

@@ -17,6 +17,10 @@ public class UserService {
         return userRepo.getPage(page, count);
     }
 
+    public List<Item> getPage(int page, int count, String search) {
+        return userRepo.getPage(page, count, search);
+    }
+
     public int getLastPage(int count) {
         long items = userRepo.getItemCount();
         if ( items < count) {
@@ -25,4 +29,16 @@ public class UserService {
             return (int) (items/count);
         } else return (int) (items/count)+1;
     }
+
+    public int getLastSearchPage(String search, int count) {
+        long items = userRepo.getItemCount(search);
+        if (items==0) {
+            return 0;
+        }else if ( items < count) {
+            return 1;
+        } else if ( items % count == 0) {
+            return (int) (items/count);
+        } else return (int) (items/count)+1;
+    }
+
 }

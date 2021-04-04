@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,15 +42,51 @@ public class UserController {
     public String getPage(@RequestParam("page") int page,
                           @RequestParam("count") int count,
                           Model model)  {
-        List<Item> items = userSrv.getPage(page, count);
         int lastPage = userSrv.getLastPage(count);
+        List<Item> items;
+        if (page>lastPage) {
+            items = userSrv.getPage(lastPage, count);
+            model.addAttribute("pageSelected", lastPage);
+        } else {
+            items = userSrv.getPage(page, count);
+            model.addAttribute("pageSelected", page);
+        }
         model.addAttribute("items", items);
         model.addAttribute("countSelected", count);
         model.addAttribute("countList", countList);
-        model.addAttribute("pageSelected", page);
         model.addAttribute("lastPage", lastPage);
 
         return "user/user";
     }
+
+    @GetMapping( value = "/page/search" )
+    public String getSearchResult(@RequestParam("page") int page,
+                                  @RequestParam("count") int count,
+                                  @RequestParam("value") String search,
+                                  Model model)  {
+
+        int lastPage = userSrv.getLastSearchPage(search, count);
+        List<Item> items;
+        if (lastPage==0 || search.isEmpty()) {
+            //return "redirect:/user/";
+            lastPage = 1;
+            items = new ArrayList<>();
+            model.addAttribute("pageSelected", lastPage);
+        } else if (page>lastPage) {
+            items = userSrv.getPage(lastPage, count, search);
+            model.addAttribute("pageSelected", lastPage);
+        } else {
+            items = userSrv.getPage(page, count, search);
+            model.addAttribute("pageSelected", page);
+        }
+        model.addAttribute("items", items);
+        model.addAttribute("searchVal", search);
+        model.addAttribute("countSelected", count);
+        model.addAttribute("countList", countList);
+        model.addAttribute("lastPage", lastPage);
+
+        return "user/search";
+    }
+
 
 }
