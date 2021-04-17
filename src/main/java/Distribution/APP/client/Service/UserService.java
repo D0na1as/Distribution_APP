@@ -1,5 +1,8 @@
 package Distribution.APP.client.Service;
 
+import Distribution.APP.client.Config.OrderStatus;
+import Distribution.APP.client.Model.Account;
+import Distribution.APP.client.Model.Delivery;
 import Distribution.APP.client.Model.Item;
 import Distribution.APP.client.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +44,11 @@ public class UserService {
         } else return (int) (items/count)+1;
     }
 
+    public List<Delivery> getDeliveries(OrderStatus status) {
+        return userRepo.getDelivery(status);
+    }
+
+    public Account getAccount(String user) {
+        return userRepo.getAccount(user);
+    }
 }

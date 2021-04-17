@@ -3,9 +3,8 @@ package Distribution.APP.client.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Item {
+public class Item extends Core{
 
-    private long id;
     private String title;
     private String serial;
     private int quantity;
@@ -17,14 +16,6 @@ public class Item {
         this.title = title;
         this.serial = serial;
         this.quantity = quantity;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitle() {

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/custom.min.css">
+    <link rel="stylesheet" href="/css/login-style.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <h1>Welcome</h1>
+
+        <form class="form" th:action="@{/}" method="POST">
+            <input name="username" type="text" placeholder="Email">
+            <input name="password" type="password" placeholder="Password">
+            <button type="submit" id="login-button">Login</button>
+        </form>
+    </div>
+
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<!--Message Modal-->
+<div class="modal fade" tabindex="-1" role="dialog" id="messageModal" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <H4 id="messageTitle">Title</H4>
+                <p id="messageBody" class="mt-4">Message to show</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/script/jquery.min.js"></script>
+<script src="/script/bootstrap.bundle.min.js"></script>
+<script src="/script/login.js"></script>
+<script th:if="${error==true}">
+        $(document).ready(function(){
+            infoWindow("Attention", "Wrong email or password!");
+        });
+</script>
+</body>
+</html>
