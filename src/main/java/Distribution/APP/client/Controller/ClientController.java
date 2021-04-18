@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -65,6 +66,39 @@ public class ClientController {
         model.addAttribute("lastPage", lastPage);
 
         return "client/client";
+    }
+
+    @GetMapping( value = "/page/search" )
+    public String getSearchResult(@RequestParam("page") int page,
+                                  @RequestParam("count") int count,
+                                  @RequestParam("value") String search,
+                                  Model model)  {
+
+        if (search.isEmpty()) {
+            return "redirect:/client/";
+        }
+        int lastPage = clientSrv.getLastSearchPage(search, count);
+        List<Item> items;
+        if (lastPage==0 || search.isEmpty()) {
+            lastPage = 1;
+            items = new ArrayList<>();
+            model.addAttribute("pageSelected", lastPage);
+        } else if (page>lastPage) {
+            items = clientSrv.getPage(lastPage, count, search);
+            model.addAttribute("pageSelected", lastPage);
+        } else {
+            items = clientSrv.getPage(page, count, search);
+            model.addAttribute("pageSelected", page);
+        }
+        List<Cart> cart = clientSrv.getCart();
+        model.addAttribute("cartCount", cart.size());
+        model.addAttribute("items", items);
+        model.addAttribute("searchVal", search);
+        model.addAttribute("countSelected", count);
+        model.addAttribute("countList", countList);
+        model.addAttribute("lastPage", lastPage);
+
+        return "client/search";
     }
 
     @GetMapping( value = "/cart" )

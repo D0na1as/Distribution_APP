@@ -97,19 +97,24 @@
                         </thead>
                         <tbody id="table-body">
                             <tr id="tableRow" th:each="item:${items}" class="center">
-                                <input th:value="${item.id}" type="hidden">
-                                <td th:text="${item.quantity}"></td>
-                                <td th:text="${item.title}"></td>
-                                <td th:text="${item.serial}"></td>
-                                <td class="align-middle p-0">
-                                    <form class="form-inline justify-content-center my-2 my-lg-0">
-                                        <a  class="btn btn-info btn-sm ml-1" href="#editItemModal" data-toggle="modal">
-                                            <span class="pl-4 pr-4" >
-                                                <i class="fas fa-pencil-alt scale_120"></i>
-                                            </span>
-                                        </a>
-                                    </form>
-                                </td>
+                                <th:block th:if="${item.quantity!=0}" >
+                                    <input th:value="${item.id}" type="hidden">
+                                    <td th:text="${item.quantity}"></td>
+                                    <td th:text="${item.title}"></td>
+                                    <td th:text="${item.serial}"></td>
+                                    <td class="align-middle p-0">
+                                        <div class="form-inline justify-content-center my-2 my-lg-0">
+                                            <a  class="btn btn-info btn-sm ml-1" href="#editItemModal" data-toggle="modal">
+                                                <span class="pl-4 pr-4" >
+                                                    <i class="fas fa-pencil-alt scale_120"></i>
+                                                </span>
+                                            </a>
+                                            <a class="btn btn-sm ml-3 pt-2" href="#deleteItemModal" data-toggle="modal">
+                                                <i class="fas fa-times scale_120" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </th:block>
                             </tr>
                         </tbody>
                     </table>
@@ -235,6 +240,72 @@
         </div>
     </div>
     <!-- /Edit Item Modal-->
+
+    <!-- Delete Item Modal-->
+    <div class="modal fade" id="deleteItemModal" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="d-flex justify-content-between">
+                    <div class="form-inline page-header mt-4 ml-4">
+                        <i class="fas fa-trash-alt fa-2x ml-1 mr-2 pb-2"></i>
+                        <h3 class="ml-2">Delete item?</h3>
+                    </div>
+                    <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group form-inline justify-content-between">
+                                <tr>
+                                    <td class="align-middle p-0 mt-2">
+                                        <div class="d-block font-weight-bold" >
+                                            <label class="mb-1">Id</label>
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input id="deleteId" class="form-control form-control addItem_input_nbr mr-sm-1" type="text" disabled>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td class="d-block align-middle p-0 mt-2">
+                                        <div class="d-block font-weight-bold" >
+                                            <label class="mb-1">Title</label>
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input id="deleteTitle" class="form-control form-control addItem_input mr-sm-1" type="text" disabled>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td class="d-block align-middle p-0">
+                                        <div class="d-block font-weight-bold" >
+                                            <label class="mb-1">Serial</label>
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input id="deleteSerial" class="form-control form-control addItem_input mr-sm-1" type="text" disabled>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td class="d-block align-middle p-0">
+                                        <div class="d-block font-weight-bold">
+                                            <label class="mb-1">Quantity</label>
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input id="deleteQuantity" class="form-control form-control addItem_input_nbr mr-sm-1" type="number" disabled>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-3 justify-content-right p-0 pl-4">
+                        <button type="button" id="deleteConfirm" class="btn btn-block btn-danger">Yes</button>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Delete Item Modal-->
 
     <!-- Order List Modal-->
     <div class="modal fade" id="orderListModal">
@@ -396,18 +467,7 @@
                                 <input id="clientEmail" type="email" placeholder="Email" class="form-control">
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="col-sm-2 control-label" for="textinput">Password</label>
-                                <div>
-                                <input type="text" placeholder="City" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="col-sm control-label" for="textinput">Repeat Password</label>
-                                <div>
-                                <input type="text" placeholder="Post Code" class="form-control">
-                                </div>
-                            </div>
+
                         </div>
                         </div>
             
@@ -509,7 +569,9 @@
                     <p id="messageBody" class="mt-4">Message to show</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-block btn-primary" data-dismiss="modal">Ok</button>
+                    </div>
                 </div>
             </div>
         </div>

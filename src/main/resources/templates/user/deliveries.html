@@ -100,7 +100,7 @@
                                                     <select class="form-control-sm border-info shadow-none mr-2">
                                                         <option th:value="${T(Distribution.APP.client.Config.OrderStatus).shipped}" th:text="Shipped" selected></option>
                                                         <option th:value="${T(Distribution.APP.client.Config.OrderStatus).canceled}" th:text="Cancel"></option>
-                                                        <option th:value="${T(Distribution.APP.client.Config.OrderStatus).received}" th:text="Received"></option>
+                                                        <option th:value="${T(Distribution.APP.client.Config.OrderStatus).returned}" th:text="Returned"></option>
                                                     </select>
                                                 </div>
                                             </form>
@@ -172,8 +172,8 @@
                                     </thead>
                                     <tbody id="ReturnedTable">
                                     <tr th:each="order:${returned}" class="center">
-                                        <td th:text="${order.id}"></td>
-                                        <td th:text="${order.client}"></td>
+                                        <td><a th:text="${order.id}" href="#orderItemModal" data-toggle="modal"></a></td>
+                                        <td><a th:text="${order.client}" href="#accountModal" data-toggle="modal"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>

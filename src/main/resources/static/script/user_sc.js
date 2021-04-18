@@ -127,6 +127,21 @@ $(document).ready(function(){
                     getDeliveries(canceled);
         });
 
+        $('a[href="#deleteItemModal"]').click(function(e) {
+               var id = $(this).parent().parent().parent().find("input").val();
+               var qnt = $(this).parent().parent().parent().find("td:eq(0)").text();
+               var title = $(this).parent().parent().parent().find("td:eq(1)").text();
+               var serial = $(this).parent().parent().parent().find("td:eq(2)").text();
+               $("#deleteId").val(id);
+               $("#deleteQuantity").val(qnt);
+               $("#deleteSerial").val(serial);
+               $("#deleteTitle").val(title);
+        });
+
+        $('#deleteConfirm').click('change', function() {
+            deleteItem($("#deleteId").val(), $("#deleteTitle").val());
+        });
+
         $('#deliveriesTable').on('click','a[href="#accountModal"]', function(){
                 getClient($(this).text());
         });
@@ -297,27 +312,34 @@ function getClient(clientId) {
 
 //Update Item
 function updateItem(id, title, serial, qnt) {
-     $.ajax({
-            contentType : "application/json; charset=utf-8",
-            dataType: "json",
-            type : 'Put',
-            url: host+'/v1/user/storage/item/'+id,
-            data: JSON.stringify( { "id": id,
-                                    "title": title,
-                                    "serial": serial,
-                                    "quantity": qnt } ),
-            success: function(data) {
-                $('#editItemModal').modal('hide');
-                infoWindow("Item update", "Item "+title+" successfully updated!");
-                $('#messageModal').on('hidden.bs.modal', function() {
-                    location.reload(true);
-                });
-                },
-           //Error handling
-            error: function(xhr, status, error) {
-                infoWindow("Error alert", xhr.responseJSON.message);
-            }
-    });
+
+    if (id && title && serial && qnt) {
+        console.log(title);
+         $.ajax({
+                contentType : "application/json; charset=utf-8",
+                dataType: "json",
+                type : 'Put',
+                url: host+'/v1/user/storage/item/'+id,
+                data: JSON.stringify( { "id": id,
+                                        "title": title,
+                                        "serial": serial,
+                                        "quantity": qnt } ),
+                success: function(data) {
+                    $('#editItemModal').modal('hide');
+                    var descr = "Item "+ title.italics() +" successfully updated!"
+                    infoWindow("Item update", "Item \""+ title +"\" successfully updated!");
+                    $('#messageModal').on('hidden.bs.modal', function() {
+                        location.reload(true);
+                    });
+                    },
+               //Error handling
+                error: function(xhr, status, error) {
+                    infoWindow("Error alert", xhr.responseJSON.message);
+                }
+        });
+    } else {
+        infoWindow("Attention!", "All fields must be filled!");
+    }
 }
 
 //Update Item
@@ -340,26 +362,50 @@ function upOrderStatus(order, status) {
 }
 
 function addItem(title, serial, qnt) {
-     $.ajax({
-            contentType : "application/json; charset=utf-8",
-            dataType: "json",
-            type : 'Post',
-            url: host+'/v1/user/storage/item',
-            data: JSON.stringify( { "title": title,
-                                    "serial": serial,
-                                    "quantity": qnt } ),
-            success: function(data) {
-                $('#addItemModal').modal('hide');
-                infoWindow("New item", title+" successfully added to storage.");
-                $('#messageModal').on('hidden.bs.modal', function() {
-                    location.reload(true);
-                });
-            },
-           //Error handling
-            error: function(xhr, status, error) {
-                infoWindow("Error alert", xhr.responseJSON.message);
-            }
-    });
+
+        if (title && serial && qnt) {
+             $.ajax({
+                    contentType : "application/json; charset=utf-8",
+                    dataType: "json",
+                    type : 'Post',
+                    url: host+'/v1/user/storage/item',
+                    data: JSON.stringify( { "title": title,
+                                            "serial": serial,
+                                            "quantity": qnt } ),
+                    success: function(data) {
+                        $('#addItemModal').modal('hide');
+                        infoWindow("New item", title+" successfully added to storage.");
+                        $('#messageModal').on('hidden.bs.modal', function() {
+                            location.reload(true);
+                        });
+                    },
+                   //Error handling
+                    error: function(xhr, status, error) {
+                        infoWindow("Error alert", xhr.responseJSON.message);
+                    }
+            });
+        } else {
+            infoWindow("Attention!", "All fields must be filled!");
+        }
+}
+
+function deleteItem(id, title) {
+         $.ajax({
+                contentType : "application/json; charset=utf-8",
+                type : 'Delete',
+                url: host+'/v1/user/storage/item/'+id,
+                success: function(data) {
+                    $('#deleteItemModal').modal('hide');
+                    infoWindow("Delete item", "Item "+ title +"was successfully removed from storage.");
+                    $('#messageModal').on('hidden.bs.modal', function() {
+                        location.reload(true);
+                    });
+                },
+               //Error handling
+                error: function(xhr, status, error) {
+                    infoWindow("Error alert", xhr.responseJSON.message);
+                }
+        });
 }
 
 //Order items table element
