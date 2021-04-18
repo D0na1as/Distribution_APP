@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+      <link rel="stylesheet" th:href="@{/css/custom.min.css}">
+      <link rel="stylesheet" th:href="@{/css/style.css}">
+
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <title>Client Page</title>
+  </head>
+  <body>
+
+    <!-- Nav Bar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">LOGO</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link mr-2" href="/client/">
+                        <span  type="submit" class="mr-2"><i class="fas fa-clipboard-list scale_120"></i></span>
+                            Products
+                        <span class="sr-only">(current)</span>
+                    </a>
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="/client/cart">
+                        <span th:if="${cartCount!=0}" th:text="${cartCount}" id="cartItems" class="badge badge-light badge-pill ml-1"></span>
+                        <span type="submit" class="mr-2"><i class="fas fa-shopping-cart scale_120"></i></span>
+                            Order
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="/client/deliveries">
+                        <span type="submit" class="mr-2"><i class="fas fa-check-square scale_120"></i></span>
+                            Deliveries
+                    </a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="#contactModal" data-toggle="modal"><span  type="submit" class="mr-2"><i class="fas fa-envelope scale_130"></i></span>Contact</a>
+                </li>
+                <li class="nav-item nac-item-inline">
+                    <a class="nav-link" href="/client/account" ><span type="submit" class="mr-2"><i class="fas fa-user-circle scale_140"></i></span>Account</a>
+                   
+                </li>
+                </ul>
+            <form action="/client/page/search" method="GET" class="form-inline my-2 my-lg-0">
+                <input name="value" class="form-control mr-sm-2" type="text" placeholder="Search">
+                <input id="search_count" name="count" hidden>
+                <input id="search_page"  name="page" hidden>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="fas fa-search scale_120"></i></button>
+            </form>
+        </div>
+        </div>
+    </nav>
+    <!-- /Nav Bar-->
+
+    <div class="container-lg">
+        <!-- Table-->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header pl-3 mt-5 mb-5">
+                    <h1>Storage Items</h1>
+                </div>
+                <div class="table">
+                    <form th:action="@{/client/page}" method="GET" >
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group form-inline">
+                                <select th:name="count" id="pag_count" class="form-control-sm border-primary shadow-none mr-2" onchange="this.form.submit()">
+                                    <th:block th:each="count:${countList}" >
+                                        <option th:value="${count}" th:text="${count}" th:selected="${count == countSelected}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Pagination">
+                                <button id="pag_down" type="submit" class="form-control form-control-sm btn btn-primary btn-sm" th:disabled="${pageSelected == 1}">&laquo;</button>
+                                <select th:name="page" id="pag_page" class="form-control form-control-sm border-primary pag_drop shadow-none rounded-0" onchange="this.form.submit()">
+                                    <th:block th:each="page_nr:${#numbers.sequence(1,lastPage,1)}" >
+                                        <option th:value="${page_nr}" th:text="${page_nr}" th:selected="${page_nr == pageSelected}"></option>
+                                    </th:block>
+                                </select>
+                                <button id="pag_up" type="submit" class="form-control form-control-sm btn btn-primary btn-sm" th:disabled="${pageSelected == lastPage}">&raquo;</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <table class="table table-hover text-center">
+                            <thead>
+                            <tr>
+                                <th style="width: 10%">Quantity</th>
+                                <th style="width: 50%">Title</th>
+                                <th style="width: 20%">Serial</th>
+                                <th style="width: 20%">Update</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="tableRow" th:each="item:${items}" class="center">
+                                    <th:block th:if="${item.quantity!=0}" >
+                                        <input th:value="${item.id}" type="hidden">
+                                        <td th:text="${item.quantity}"></td>
+                                        <td th:text="${item.title}"></td>
+                                        <td th:text="${item.serial}"></td>
+                                        <td class="align-middle p-0">
+                                            <form class="form-inline justify-content-center my-2 my-lg-0">
+                                                <input class="form-control form-control-sm tbl_input_width  mr-sm-2" type="number" value="0" required>
+                                                <a  class="btn btn-info btn-sm ml-1" href="#"><i class="fas fa-shopping-cart scale_120 pl-4 pr-4"></i></a>
+                                            </form>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Table-->
+    </div>
+    <!-- Order List Modal-->
+
+    <div class="modal fade" id="cartModal" >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="d-flex justify-content-between">
+                <div class="form-inline page-header mt-4 ml-4">
+                    <i class="fas fa-shopping-cart fa-2x ml-3 mr-4 pb-2 pl-3"></i>
+                    <h3>Order cart</h3>
+                </div>
+                <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <div class="form-group">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Serial</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Remove</th>
+                                </tr>
+                                </thead>
+                                <tbody id="cartTable">
+
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Order</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- /Order List Modal-->
+    
+    <!-- Deliveries Modal-->
+    <div class="modal fade" id="deliveriesModal" >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="d-flex justify-content-between">
+                <div class="form-inline page-header mt-4 ml-4">
+                    <i class="fas fa-check-square fa-2x ml-3 mr-4 pb-2 pl-3"></i>
+                    <h3 id="tables">Deliveries</h3>
+                </div>
+                <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <div class="form-group">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Serial</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Alloy Wheels</td>
+                                    <td>JDSF443JDDS</td>
+                                    <td class="align-middle p-0">                        
+                                        <form class="form-inline justify-content-center my-2 my-lg-0">
+                                            <button class="btn btn-danger btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit"><i class="fas fa-times scale_120 pl-1 pr-1"></i></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Alloy Wheels</td>
+                                    <td>JDSF443JDDS</td>
+                                    <td class="align-middle p-0">                        
+                                        <form class="form-inline justify-content-center my-2 my-lg-0">
+                                            <button class="btn btn-warning btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" ><i class="fas fa-truck scale_120"></i></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Alloy Wheels</td>
+                                    <td>JDSF443JDDS</td>
+                                    <td class="align-middle p-0">                        
+                                        <form class="form-inline justify-content-center my-2 my-lg-0">
+                                            <button class="btn btn-success btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" ><i class="fas fa-check scale_120"></i></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Alloy Wheels</td>
+                                    <td>JDSF443JDDS</td>
+                                    <td class="align-middle p-0">                        
+                                        <form class="form-inline justify-content-center my-2 my-lg-0">
+                                            <button class="btn btn-success btn-sm ml-1" type="submit"><span class="pl-4 pr-4" type="submit" ><i class="fas fa-check scale_120"></i></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Deliveries Modal-->
+
+    <!--Contact Modal-->
+    <div class="modal fade" id="contactModal" >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="d-flex justify-content-between">
+            <div class="form-inline page-header mt-4 ml-4">
+                <h5 type="submit" class="ml-3 mr-3"><i class="fas fa-envelope fa-2x"></i></h5>
+                <h2>Contact Us</h2>
+            </div>
+            <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!--Section: Contact v.2-->
+            <section class="mb-4">
+            <!--Section description-->
+            <p class="text-center w-responsive ml-3 mr-3 mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
+                a matter of hours to help you.</p>
+
+            <div class="row justify-content-center">
+
+                <!--Grid column-->
+                <div class="col-md-8 mb-md-0 mb-5">
+                    <form id="contact-form" name="contact-form" action="mail.php" method="POST">
+
+                        <!--Grid row-->
+                        <div class="row">
+
+                            <!--Grid column-->
+                            <div class="col-md-6">
+                                <div class="md-form mb-0">
+                                    <input type="text" id="name" name="name" class="form-control">
+                                    <label for="name" class="">Your name</label>
+                                </div>
+                            </div>
+                            <!--Grid column-->
+
+                            <!--Grid column-->
+                            <div class="col-md-6">
+                                <div class="md-form mb-0">
+                                    <input type="text" id="email" name="email" class="form-control">
+                                    <label for="email" class="">Your email</label>
+                                </div>
+                            </div>
+                            <!--Grid column-->
+
+                        </div>
+                        <!--Grid row-->
+
+                        <!--Grid row-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="md-form mb-0">
+                                    <input type="text" id="subject" name="subject" class="form-control">
+                                    <label for="subject" class="">Subject</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Grid row-->
+
+                        <!--Grid row-->
+                        <div class="row">
+
+                            <!--Grid column-->
+                            <div class="col-md-12">
+
+                                <div class="md-form">
+                                    <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                                    <label for="message">Your message</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--Grid row-->
+
+                    </form>
+
+                    <div class="text-center text-md-left mt-4">
+                        <button type="submit" class="btn btn-primary">Change</button>
+                        <button type="submit" class="btn btn-secondary ml-1" data-dismiss="modal" >Close</button>
+                    </div>
+                    <div class="status"></div>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-3 text-center">
+                    <ul class="list-unstyled mb-0">
+                        <li><i class="fas fa-map-marker-alt fa-2x"></i>
+                            <p>Connecticut, CT 3493, USA</p>
+                        </li>
+                        <li><i class="fas fa-phone mt-4 fa-2x"></i>
+                            <p>+123 234 234</p>
+                        </li>
+
+                        <li><i class="fas fa-envelope mt-4 fa-2x"></i>
+                            <p class="p-0">user@gmail.com</p>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+
+            </div>
+
+        </section>
+        <!--Section: Contact v.2-->
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Contact Modal-->
+    
+    <!--Account  Modal-->
+    <div class="modal fade" id="AccountModal" >
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="d-flex justify-content-between">
+                <div class="form-inline page-header mt-4 ml-4">
+                    <h5 type="submit" class="ml-3 mr-3"><i class="fas fa-user-circle fa-2x"></i></h5>
+                    <h2 id="tables">Account</h2>
+                </div>
+                <button type="button" class="close mt-3 mr-4 mb-3" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-4">
+                    <form class="form-horizontal" role="form">
+                        <fieldset>
+
+                                <!-- Form Name -->
+                        <legend class="ml-3 mt-3 mb-3">Login Details</legend>
+                
+                        <!-- Text input-->
+                        <div class="row align-left">
+                            <!-- Text input-->
+                            <div class="col-md-10 d-flex justify-content-left">
+                                <div class="form-group col-md-4 ">
+                                    <label class="col-sm-7 control-label" for="textinput">E-mail</label>
+                                    <div>
+                                    <input type="email" placeholder="Email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-2 control-label" for="textinput">Password</label>
+                                    <div>
+                                    <input type="text" placeholder="City" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm control-label" for="textinput">Repeat Password</label>
+                                    <div>
+                                    <input type="text" placeholder="Post Code" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                            <!-- Form Name -->
+                        <legend class="ml-3 mt-3 mb-3">Company Details</legend>
+                
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="textinput">Company</label>
+                            <div class="col-sm-10">
+                            <input type="text" placeholder="Company" class="form-control">
+                            </div>
+                        </div>
+                
+                        <div class="col-md-10 p-0 d-flex justify-content-left">
+                            <div class="form-group col-md-8 ">
+                                <label class="col-sm-7 p-0 control-label" for="textinput">Name Surname</label>
+                                <div>
+                                <input type="text" placeholder="Email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="col-sm-2 p-0 control-label" for="textinput">Phone</label>
+                                <div>
+                                <input type="number" placeholder="City" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- Form Name -->
+                        <legend class="ml-3 mt-3 mb-3">Address Details</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="textinput">Line 1</label>
+                            <div class="col-sm-10">
+                            <input type="text" placeholder="Address Line 2" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="textinput">Line 2</label>
+                            <div class="col-sm-10">
+                            <input type="text" placeholder="Address Line 2" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row align-left">
+                                <!-- Text input-->
+                                <div class="col-md-10 d-flex justify-content-between">
+                                    <div class="form-group col-md-4">
+                                        <label class="col-sm-2 p-0 control-label" for="textinput">City</label>
+                                        <div>
+                                        <input type="text" placeholder="City" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="col-sm-2 p-0 control-label" for="textinput">Postcode</label>
+                                        <div>
+                                        <input type="text" placeholder="Post Code" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group col-md-4">
+                                        <label class="col-sm-2 p-0 control-label" for="textinput">Country</label>
+                                        <div>
+                                        <input type="text" placeholder="Country" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                
+                        </fieldset>
+                    </form>
+                    </div><!-- /.col-lg-12 -->
+                </div><!-- /.row -->
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Change</button>
+                <button type="submit" class="btn btn-secondary">Cancel</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!--/Account  Modal-->
+
+    <!--Message Modal-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="messageModal" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <H4 id="messageTitle">Title</H4>
+                    <p id="messageBody" class="mt-4">Message to show</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script/jquery.min.js"></script>
+    <script src="/script/bootstrap.bundle.min.js"></script>
+    <script src="/script/custom.js"></script>
+    <script src="/script/client_sc.js"></script>
+  </body>
+</html>
