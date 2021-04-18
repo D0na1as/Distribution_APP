@@ -64,9 +64,8 @@ public class ClientRepo {
         String buildURL = BASE_URL + "/cart/";
         return getCartItemsReq(buildURL);
     }
-
-    public List<Delivery> getDelivery(OrderStatus status) {
-        String buildURL = BASE_URL + "/order/status/"+status;
+    public List<Delivery> getDelivery(String username, OrderStatus status) {
+        String buildURL = BASE_URL + "/order/status/"+status+"?client="+username;
         return getDeliveryReq(buildURL);
     }
 

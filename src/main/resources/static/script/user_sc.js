@@ -3,7 +3,7 @@ var shipped = "shipped";
 var pending = "pending";
 var received = "received";
 var canceled = "canceled";
-
+var host = 'https://distrubutionapi.herokuapp.com';
 
 $(document).ready(function(){
 
@@ -190,7 +190,7 @@ function getOrderItems(orderId) {
             contentType : "application/json; charset=utf-8",
             dataType: "json",
             type : 'Get',
-            url: 'http://localhost:8082/v1/user/order/'+orderId,
+            url: host+'/v1/user/order/'+orderId,
             success: function(data) {
                     data.forEach(function(item) {
                         $('#orderItemsTable').append(orderItemRow(item));
@@ -227,7 +227,7 @@ function updateAccount(account) {
      $.ajax({
             contentType : "application/json; charset=utf-8",
             type : 'PUT',
-            url: 'http://localhost:8082/v1/user/account/',
+            url: host+'/v1/user/account/',
             dataType: "json",
             data: JSON.stringify(account),
             success: function(data) {
@@ -275,7 +275,7 @@ function getClient(clientId) {
             contentType : "application/json; charset=utf-8",
             dataType: "json",
             type : 'Get',
-            url: 'http://localhost:8082/v1/user/account/'+clientId,
+            url: host+'/v1/user/account/'+clientId,
             success: function(data) {
                     var client = data;
                             $("#clientEmail").val(client.email);
@@ -301,7 +301,7 @@ function updateItem(id, title, serial, qnt) {
             contentType : "application/json; charset=utf-8",
             dataType: "json",
             type : 'Put',
-            url: 'http://localhost:8082/v1/user/storage/item/'+id,
+            url: host+'/v1/user/storage/item/'+id,
             data: JSON.stringify( { "id": id,
                                     "title": title,
                                     "serial": serial,
@@ -325,7 +325,7 @@ function upOrderStatus(order, status) {
      $.ajax({
             contentType : "application/json; charset=utf-8",
             type : 'Put',
-            url: 'http://localhost:8082/v1/user/order/'+order+'?status='+status,
+            url: host+'/v1/user/order/'+order+'?status='+status,
             success: function() {
                     infoWindow("Status update", "Order "+order+" successfully " +status+ "!");
                     $('#messageModal').on('hidden.bs.modal', function() {
@@ -344,7 +344,7 @@ function addItem(title, serial, qnt) {
             contentType : "application/json; charset=utf-8",
             dataType: "json",
             type : 'Post',
-            url: 'http://localhost:8082/v1/user/storage/item',
+            url: host+'/v1/user/storage/item',
             data: JSON.stringify( { "title": title,
                                     "serial": serial,
                                     "quantity": qnt } ),

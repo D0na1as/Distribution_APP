@@ -7,7 +7,8 @@ import Distribution.APP.client.Model.Item;
 import Distribution.APP.client.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-//@PreAuthorize("hasAuthority('user')")
+@PreAuthorize("hasAuthority('user')")
 @RequestMapping("/user")
 public class UserController {
 
@@ -131,11 +132,16 @@ public class UserController {
     public String getAccount(Model model)  {
 
         List<Delivery> list = userSrv.getDeliveries(OrderStatus.pending);
-        Account account = userSrv.getAccount("user@gmail.com");
+        Account account = userSrv.getAccount(getUsername());
 
         model.addAttribute("ordersCount", list.size());
         model.addAttribute("account", account);
 
         return "user/account";
+    }
+
+    //Get current username
+    private static String getUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

@@ -8,6 +8,8 @@ import Distribution.APP.client.Model.Item;
 import Distribution.APP.client.Service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@PreAuthorize("hasAuthority('client')")
 @RequestMapping("/client")
 public class ClientController {
 
@@ -68,6 +71,7 @@ public class ClientController {
     public String getCart(Model model)  {
 
         List<Item> cart = clientSrv.getCartItems();
+        model.addAttribute("username", getUsername());
         model.addAttribute("cart", cart);
         model.addAttribute("cartCount", cart.size());
 
@@ -78,11 +82,11 @@ public class ClientController {
     @GetMapping( value = "/deliveries" )
     public String getDeliveries(Model model)  {
 
-        List<Delivery> pending = clientSrv.getDeliveries(OrderStatus.pending);
-        List<Delivery> shipped = clientSrv.getDeliveries(OrderStatus.shipped);
-        List<Delivery> received = clientSrv.getDeliveries(OrderStatus.received);
-        List<Delivery> canceled = clientSrv.getDeliveries(OrderStatus.canceled);
-        List<Delivery> returned = clientSrv.getDeliveries(OrderStatus.returned);
+        List<Delivery> pending = clientSrv.getDeliveries(getUsername(), OrderStatus.pending);
+        List<Delivery> shipped = clientSrv.getDeliveries(getUsername(), OrderStatus.shipped);
+        List<Delivery> received = clientSrv.getDeliveries(getUsername(), OrderStatus.received);
+        List<Delivery> canceled = clientSrv.getDeliveries(getUsername(), OrderStatus.canceled);
+        List<Delivery> returned = clientSrv.getDeliveries(getUsername(), OrderStatus.returned);
         List<Cart> cart = clientSrv.getCart();
 
         model.addAttribute("cartCount", cart.size());
@@ -98,7 +102,7 @@ public class ClientController {
     @GetMapping( value = "/account" )
     public String getAccount(Model model)  {
 
-        Account account = clientSrv.getAccount("client@gmail.com");
+        Account account = clientSrv.getAccount(getUsername());
         List<Cart> cart = clientSrv.getCart();
         model.addAttribute("cartCount", cart.size());
         model.addAttribute("account", account);
@@ -106,4 +110,9 @@ public class ClientController {
         return "client/account";
     }
 
+
+    //Get current username
+    private static String getUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }

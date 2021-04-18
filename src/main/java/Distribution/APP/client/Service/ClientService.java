@@ -63,8 +63,8 @@ public class ClientService {
         return cartItems;
     }
 
-    public List<Delivery> getDeliveries(OrderStatus status) {
-        return clientRepo.getDelivery(status);
+    public List<Delivery> getDeliveries(String username, OrderStatus status) {
+        return clientRepo.getDelivery(username, status);
     }
 
     public Account getAccount(String user) {

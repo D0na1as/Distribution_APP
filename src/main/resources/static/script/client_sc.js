@@ -3,6 +3,7 @@ var shipped = "shipped";
 var pending = "pending";
 var received = "received";
 var canceled = "canceled";
+var host = 'https://distrubutionapi.herokuapp.com';
 
 
 $(document).ready(function(){
@@ -120,7 +121,7 @@ function updateAccount(account) {
      $.ajax({
             contentType : "application/json; charset=utf-8",
             type : 'PUT',
-            url: 'http://localhost:8082/v1/client/account/',
+            url: host+'/v1/client/account/',
             dataType: "json",
             data: JSON.stringify(account),
             success: function(data) {
@@ -169,7 +170,7 @@ function addToCart(id, qnt) {
             contentType : "application/json; charset=utf-8",
             dataType: "json",
             type : 'POST',
-            url: 'http://localhost:8082/v1/client/cart/item?itemId='+id+'&quantity='+qnt,
+            url: host+'/v1/client/cart/item?itemId='+id+'&quantity='+qnt,
             success: function() {
                     infoWindow("Cart info", "Item successfully added to cart.");
                     $('#messageModal').on('hidden.bs.modal', function() {
@@ -188,7 +189,7 @@ function updateCart(id, qnt) {
      $.ajax({
             contentType : "application/json; charset=utf-8",
             type : 'PUT',
-            url: 'http://localhost:8082/v1/client/cart/item?itemId='+id+'&quantity='+qnt,
+            url: host+'/v1/client/cart/item?itemId='+id+'&quantity='+qnt,
             success: function() {
                     $('#editItemModal').modal('hide');
                     infoWindow("Cart info", "Item count successfully updated.");
@@ -204,13 +205,12 @@ function updateCart(id, qnt) {
     });
 }
 
-
 //Update order status
 function upOrderStatus(order, status) {
      $.ajax({
             contentType : "application/json; charset=utf-8",
             type : 'Put',
-            url: 'http://localhost:8082/v1/client/order/'+order+'?status='+status,
+            url: host+'/v1/client/order/'+order+'?status='+status,
             success: function() {
                     infoWindow("Status update", "Order "+order+" successfully " +status+ "!");
                     $('#messageModal').on('hidden.bs.modal', function() {
@@ -230,7 +230,7 @@ function getCart() {
             contentType : "application/json; charset=utf-8",
             dataType: "json",
             type : 'GET',
-            url: 'http://localhost:8082/v1/client/cart/',
+            url: host+'/v1/client/cart/',
             success: function(data) {
                     //$('#cartItems').text(data.length);
 //                    $('#messageModal').on('hidden.bs.modal', function() {
@@ -246,10 +246,11 @@ function getCart() {
 
  //Update Item
   function createOrder() {
+        var client = $("#username").val();
        $.ajax({
               contentType : "application/json; charset=utf-8",
               type : 'POST',
-              url: 'http://localhost:8082/v1/client/order/',
+              url: host+'/v1/client/order/?client='+client,
               success: function(resp) {
                       infoWindow("Order info", "New order "+resp+" created.");
                       $('#messageModal').on('hidden.bs.modal', function() {
@@ -268,7 +269,7 @@ function clearCart() {
      $.ajax({
             contentType : "application/json; charset=utf-8",
             type : 'DELETE',
-            url: 'http://localhost:8082/v1/client/cart/clean',
+            url: host+'/v1/client/cart/clean',
             success: function() {
                 location.reload(true);
                 },
@@ -285,7 +286,7 @@ function clearCart() {
               contentType : "application/json; charset=utf-8",
               dataType: "json",
               type : 'Get',
-              url: 'http://localhost:8082/v1/user/order/'+orderId,
+              url: host+'/v1/user/order/'+orderId,
               success: function(data) {
                       $("#orderItemsTable").find("tr").remove();
                       data.forEach(function(item) {
