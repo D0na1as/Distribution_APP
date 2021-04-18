@@ -53,9 +53,9 @@
     </div>
 </div>
 
-<script src="/script/jquery.min.js"></script>
-<script src="/script/bootstrap.bundle.min.js"></script>
-<script src="/script/login.js"></script>
+<script th:src="@{/script/jquery.min.js}"></script>
+<script th:src="@{/script/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/script/login.js}"></script>
 <script th:if="${error==true}">
         $(document).ready(function(){
             infoWindow("Attention", "Wrong email or password!");
